@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS</title>
+	<meta charset="utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.js"></script>
+    <script>
+        angular
+          .module("simpleApp", [])
+          .run(function ($rootScope) { $rootScope.message = "Hello"; })
+		      .controller("ParentScopeController", function ($scope) {
+		        $scope.message = $scope.message + " World.";
+		      })
+          .controller("ChildScopeController", function ($scope) {
+              $scope.message = $scope.message + "  How are you?";
+          })
+          .controller("ParentModifyScopeController", function ($scope) {
+              $scope.productName = "Widget1";
+              $scope.product = { name: "Widget2" };
+          })
+          .controller("ChildModifyScopeController", function ($scope) {
+              $scope.productName = "DoHickey3";
+              $scope.product.name = "DoHickey4";
+          })
+          .controller("EventHandlerController", function ($scope) {
+              $scope.alertMe = function (msg, planet) { alert(msg + " " + planet); };
+          });
+    </script>
+</head>
+<body>
+    <h1>Module 05.1 Scope</h1>
+    <div ng-app="simpleApp">
+        {{message}}
+        <div ng-controller="ParentScopeController">{{message}}</div>
+        <div ng-controller="ParentScopeController">
+            {{message}}
+            <div ng-controller="ChildScopeController">{{message}}</div>
+        </div>
+        <div ng-controller="ChildScopeController">{{message}}</div>
+
+        <br />
+        <div ng-controller="ParentModifyScopeController">
+            productName = {{productName}}<br />
+            product.name = {{product.name}}<br />
+
+            <div ng-controller="ChildModifyScopeController">
+                productName = {{productName}}<br />
+                product.name = {{product.name}}<br />
+            </div>
+        </div>
+
+        <br />
+        <div ng-controller="EventHandlerController">
+            <button ng-click="alertMe(message, 'World')">Greetings...</button>
+        </div>
+    </div>
+</body>
+</html>
